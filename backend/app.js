@@ -5,4 +5,6 @@ const app = express();
 
 
 app.use(bodyParser.json()); // pour transformer le corps de la requête en objet JS
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 module.exports = app;
