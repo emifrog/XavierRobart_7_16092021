@@ -1,47 +1,52 @@
-const http = require('http'); // pour importer le package HTTP natif de Node
+const http = require('http');
 const app = require('./app');
+const conn = require("./connection");
+const normalizePort = val => {
+    const port = parseInt(val, 10);
 
-const normalizePort = val => { // pour renvoyer un port valide
-  const port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    return val;
-  }
-  if (port >= 0) {
-    return port;
-  }
-  return false;
+    if (isNaN(port)) {
+        return val;
+    }
+    if (port >= 0) {
+        return port;
+    }
+    return false;
 };
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port); //On indique quel port l'app utilise
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
-const errorHandler = error => { // pour rechercher les différentes erreurs et les gérer de manière appropriée
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-  const address = server.address();
-  const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges.');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use.');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+const errorHandler = error => {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+    const address = server.address();
+    const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges.');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use.');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 };
 
-const server = http.createServer(app); //On créé notre serveur en utilisant notre app
+const server = http.createServer(app);
 
 server.on('error', errorHandler);
 server.on('listening', () => {
-  const address = server.address();
-  const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
-  console.log('Listening on ' + bind);
+    const address = server.address();
+    const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
+    console.log('Listening on ' + bind);
 });
-
+// test port 3000
+app.get('/api', (req, res) => {
+    if (res) { res.send('Connection établie'); } else {
+        console.log("problème");
+    }
+});
 server.listen(port);

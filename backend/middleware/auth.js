@@ -1,22 +1,22 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const dotenv = require("dotenv");
+dotenv.config();
+
 
 module.exports = (req, res, next) => {
-    try {
-        if (!req.headers.authorization) {
-            throw 'Token d\'authentification manquant !';
-        }
-        const token = req.headers.authorization.split(' ')[1];
-        const decodedToken = jwt.verify(token, process.env.JWT_RAND_SECRET);
-        const userId = decodedToken.userId;
 
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decodedToken = jwt.verify(token, process.env.DB_TOKEN);
+        const userId = decodedToken.userId;
         if (req.body.userId && req.body.userId !== userId) {
-            throw 'Identifiant utilisateur invalide';
+            throw 'L\'identifiant est invalide';
         } else {
-            console.log("jwt succes userId", userId)
             next();
         }
-    } catch (error) {
-        return res.status(400).json({ error })
+    } catch {
+        res.status(401).json({
+            error: new Error('La requète n\'est pas valide')
+        });
     }
 };
