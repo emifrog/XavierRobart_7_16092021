@@ -234,9 +234,11 @@ h1 {
   color: #8e1801;
 }
 .smallsize {
+  color: #fff;
   font-size: 14px;
   border: none !important;
-  background-color: #fff !important;
+  background-color: #dc3545 !important;
+  border-radius: 0.25rem;
 }
 .contentcommentaire {
   font-size: 18px;
