@@ -32,7 +32,7 @@
             <div class="row d-flex justify-content-center">
               <div class="col-md-10">
                 <div class="headings d-flex justify-content-between align-items-center mb-3">
-                  <label for="contentcomm" title="contentcomm" class="sr-only">commentaire</label>
+                  <label for="contentcomm" title="contentcomm" class="sr-only">Commentaire</label>
                   <input type="text" class="form-control textarea " rows="2" id="contentcomm" v-model="comment" placeholder="votre commentaire..." required>
                   <button type="submit" class="btn btn-danger signup ml-2" @click="PostComm()">commenter</button>
                 </div>
